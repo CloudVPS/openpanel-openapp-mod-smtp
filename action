@@ -7,7 +7,7 @@ SMTPSettings.update() {
     enable_smarthost=$(coreval SMTPSettings enable_smarthost)
     smarthost=$(coreval SMTPSettings smarthost)
     admin_address=$(coreval Admin emailaddress)
-    authd runscript openapp-smtp-configure-dma "$mailname" "$enable_tls" "$enable_smarthost" "$smarthost" "$admin_addres"
+    authd runscript openapp-smtp-configure-dma "$mailname" "$enable_tls" "$enable_smarthost" "$smarthost" "$admin_address"
 }
 
 Module.getconfig() {
@@ -42,4 +42,4 @@ _EOF_
   exitquiet
 }
 
-implement OpenAppMysql.module
+implement OpenAppSMTP.module
