@@ -4,6 +4,7 @@ mailname=$1
 enable_tls=$2
 enable_smarthost=$3
 smarthost=$4
+admin_address=$5
 
 fatal() {
     echo $1
@@ -19,6 +20,7 @@ fatal() {
 [ -z "$enable_smarthost" ] && enable_smarthost=false
 [ "$enable_smarthost" = "true" -a -z "$smarthost" ] && fatal "You should enter a smarthost if you want to use one"
 [ "$enable_smarthost" = "false" ] && smarthost=
+[ -z "$admin_address" ] && admin_addres=root@${mailname}
 
 TMPFILE=$(mktemp)
 
@@ -39,4 +41,6 @@ STARTTLS
 EOB
 
 echo $mailname > /etc/mailname
+echo "root: $admin_address" > /etc/aliases
+newaliases
 mv ${TMPFILE} /etc/dma/dma.conf

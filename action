@@ -6,7 +6,8 @@ SMTPSettings.update() {
     enable_tls=$(coreval SMTPSettings enable_tls)
     enable_smarthost=$(coreval SMTPSettings enable_smarthost)
     smarthost=$(coreval SMTPSettings smarthost)
-    authd runscript openapp-smtp-configure-dma "$mailname" "$enable_tls" "$enable_smarthost" "$smarthost"
+    admin_address=$(coreval Admin emailaddress)
+    authd runscript openapp-smtp-configure-dma "$mailname" "$enable_tls" "$enable_smarthost" "$smarthost" "$admin_addres"
 }
 
 Module.getconfig() {
