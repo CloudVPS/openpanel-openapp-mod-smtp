@@ -18,6 +18,7 @@ fatal() {
 [ -z "$enable_tls" ] && enable_tls=false
 [ -z "$enable_smarthost" ] && enable_smarthost=false
 [ "$enable_smarthost" = "true" -a -z "$smarthost" ] && fatal "You should enter a smarthost if you want to use one"
+[ "$enable_smarthost" = "false" ] && smarthost=
 
 TMPFILE=$(mktemp)
 
