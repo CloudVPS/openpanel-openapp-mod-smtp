@@ -37,6 +37,11 @@ class SMTPSettings              < uuid e1d42d6d-6661-4efc-a527-2c308680784e
 								< listview id emailaddress
 								< required id password emailaddress
 
+	string emailaddress			: Admininstrator address
+								< regexp [:email:]
+								< textwidth 45
+								< example john@acme.example.net
+								
 	string mailname	        	: My hostname
 								< regexp [:hostname:]
 								< textwidth 45
