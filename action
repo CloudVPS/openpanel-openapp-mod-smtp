@@ -13,6 +13,7 @@ SMTPSettings.update() {
 Module.getconfig() {
     CONFFILE=/etc/dma/dma.conf
     MAILNAME=$(cat /etc/mailname)
+    EMAILADDRESS=$(grep root: /etc/aliases | cut -f2 -d ' ')
     ENABLE_SMARTHOST=false
     SMARTHOST=
     ENABLE_TLS=true
@@ -27,7 +28,8 @@ Module.getconfig() {
   <openpanel.module>
     <dict id="SMTPSettings" type="class">
       <dict id="openapp-smtp-settings" type="object">
-	    <string id="mailname">${MAILNAME}</string>
+        <string id="mailname">${MAILNAME}</string>
+        <string id="emailaddress">${EMAILADDRESS}</string>
         <bool id="enable_tls">${ENABLE_TLS}</bool>
         <bool id="enable_smarthost">${ENABLE_SMARTHOST}</bool>
         <string id="smarthost">${SMARTHOST}</string>
