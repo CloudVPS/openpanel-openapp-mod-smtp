@@ -1,0 +1,13 @@
+Source: openpanel-openapp-mod-smtp
+Section: misc
+Priority: optional
+Maintainer: OpenPanel packager <packages@openpanel.com>
+Build-Depends: debhelper (>= 5), openpanel-dev
+Standards-Version: 3.7.2
+
+Package: openpanel-openapp-mod-smtp
+Architecture: any
+Pre-Depends: openpanel-core, openpanel-authd
+Depends: dma, openpanel-core, openpanel-api-sh, ${shlibs:Depends}, ${misc:Depends}
+Description: OpenPanel module to manage OpenApp smtp
+  manage the OpenApp smtp
