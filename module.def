@@ -1,0 +1,62 @@
+# ============================================================================
+# This file is part of OpenPanel - The Open Source Control Panel
+# OpenPanel is free software: you can redistribute it and/or modify it 
+# under the terms of the GNU General Public License as published by the Free 
+# Software Foundation, using version 3 of the License.
+#
+# Please note that use of the OpenPanel trademark may be subject to additional 
+# restrictions. For more information, please visit the Legal Information 
+# section of the OpenPanel website on http://www.openpanel.com/
+#
+# OpenPanel OpenAppSMTP.module for configuring DMA
+# ============================================================================
+module OpenAppSMTP				< uuid d5b00d08-d0d4-481b-9c1b-ef91f8188765
+								< version 1.0
+								< languages en_EN
+								< apitype commandline
+								< getconfig true
+								< license GPLv3
+								< author OpenPanel
+								< url http://www.openpanel.com/
+	
+# ============================================================================
+# CLASSES
+# ============================================================================
+class SMTPSettings              < uuid e1d42d6d-6661-4efc-a527-2c308680784e
+								< version 1
+								< indexing manual
+								< uniquein class
+								< shortname smtpsettings
+								< singleton openapp-smtp-settings
+								< title SMTP Relay settings
+								< description OpenApp SMTP settings
+								< sortindex 10
+								< icon user.png
+							
+								< capabilities update
+								< listview id emailaddress
+								< required id password emailaddress
+
+	string mailname	        	: My hostname
+								< regexp [:hostname:]
+								< textwidth 45
+                                < example host.example.net
+
+    bool enable_tls             : Enable TLS
+                                < default true
+                                < gridhide true
+
+    bool enable_smarthost       : Use a smarthost
+                                < default false
+                                < gridhide true
+
+    string smarthost            : Smarthost hostname
+                                < regexp [:hostname:]
+                                < textwidth 45
+                                < example mail.example.net
+								
+# ============================================================================
+# AUTHD
+# ============================================================================
+authd scripts
+	script openapp-smtp-configure-dma

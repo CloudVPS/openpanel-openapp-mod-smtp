@@ -1,0 +1,44 @@
+#!/bin/bash
+. /var/openpanel/api/sh/module.sh
+
+SMTPSettings.update() {
+    mailname=$(coreval SMTPSettings mailname)
+    enable_tls=$(coreval SMTPSettings enable_tls)
+    enable_smarthost=$(coreval SMTPSettings enable_smarthost)
+    smarthost=$(coreval SMTPSettings smarthost)
+    authd runscript openapp-smtp-configure-dma "$mailname" "$enable_tls" "$enable_smarthost" "$smarthost"
+}
+
+Module.getconfig() {
+    CONFFILE=/etc/dma/dma.conf
+    MAILNAME=$(cat /etc/mailname)
+    ENABLE_SMARTHOST=false
+    SMARTHOST=
+    ENABLE_TLS=true
+
+    grep -q '^SMARTHOST\( \+\)\?$' ${CONFFILE} || ENABLE_SMARTHOST=true
+    [ "$ENABLE_SMARTHOST" = "true" ] && SMARTHOST=$(grep SMARTHOST ${CONFFILE} | cut -f2 -d ' ')
+    grep -q '^SECURETRANSFER\( \+\)\?$' ${CONFFILE} || ENABLE_TLS=false
+    grep -q '^STARTTLS\( \+\)\?$' ${CONFFILE} || ENABLE_TLS=false
+
+    
+  cat << _EOF_
+  <openpanel.module>
+    <dict id="SMTPSettings" type="class">
+      <dict id="openapp-smtp-settings" type="object">
+	    <string id="mailname">${MAILNAME}</string>
+        <bool id="enable_tls">${ENABLE_TLS}</bool>
+        <bool id="enable_smarthost">${ENABLE_SMARTHOST}</bool>
+        <string id="smarthost">${SMARTHOST}</string>
+      </dict>
+    </dict>
+	<dict id="OpenCORE:Result">
+      <integer id="error">0</integer>
+      <string id="message">OK</string>
+    </dict>
+  </openpanel.module>
+_EOF_
+  exitquiet
+}
+
+implement OpenAppMysql.module

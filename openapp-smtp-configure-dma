@@ -1,0 +1,40 @@
+#!/bin/bash
+
+mailname=$1
+enable_tls=$2
+enable_smarthost=$3
+smarthost=$4
+
+fatal() {
+    echo $1
+    FATALS=$FATALS+1
+    exit 1
+}
+
+[ -z "$mailname" ] && mailname=$(cat /etc/mailname)
+[ -z "$mailname" ] && mailname=$(hostname -f)
+[ -z "$mailname" ] && fatal "Unable to determine mailname, or no mailname given"
+
+[ -z "$enable_tls" ] && enable_tls=false
+[ -z "$enable_smarthost" ] && enable_smarthost=false
+[ "$enable_smarthost" = "true" -a -z "$smarthost" ] && fatal "You should enter a smarthost if you want to use one"
+
+TMPFILE=$(mktemp)
+
+cat <<EOB > ${TMPFILE}
+SMARTHOST $smarthost
+PORT 25
+ALIASES /etc/aliases
+SPOOLDIR /var/spool/dma
+AUTHPATH /etc/dma/auth.conf
+DEFER
+DBOUNCEPROG dbounce-simple-safecat
+MAILNAMEFILE /etc/mailname
+EOB
+
+[ "$enable_tls" = "true" ] && cat <<EOB >> ${TMPFILE}
+SECURETRANSFER
+STARTTLS
+EOB
+
+echo $mailname > /etc/mailname
