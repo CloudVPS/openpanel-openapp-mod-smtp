@@ -38,3 +38,4 @@ STARTTLS
 EOB
 
 echo $mailname > /etc/mailname
+mv ${TMPFILE} /etc/dma/dma.conf
