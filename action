@@ -19,7 +19,7 @@ Module.getconfig() {
     ENABLE_TLS=true
 
     echo "${CONFIG}" | grep -q '^SMARTHOST\( \+\)\?$' || ENABLE_SMARTHOST=true
-    [ "$ENABLE_SMARTHOST" = "true" ] && SMARTHOST=$(echo ${CONFIG} | grep SMARTHOST | cut -f2 -d ' ')
+    [ "$ENABLE_SMARTHOST" = "true" ] && SMARTHOST=$(echo "${CONFIG}" | grep SMARTHOST | cut -f2 -d ' ')
     echo "${CONFIG}" | grep -q '^SECURETRANSFER\( \+\)\?$' || ENABLE_TLS=false
     echo "${CONFIG}" | grep -q '^STARTTLS\( \+\)\?$' || ENABLE_TLS=false
 
