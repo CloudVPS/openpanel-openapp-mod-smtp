@@ -11,17 +11,17 @@ SMTPSettings.update() {
 }
 
 Module.getconfig() {
-    CONFFILE=/etc/dma/dma.conf
+    CONFIG=$(authd getobject dma.config)
     MAILNAME=$(cat /etc/mailname)
     EMAILADDRESS=$(grep root: /etc/aliases | cut -f2 -d ' ')
     ENABLE_SMARTHOST=false
     SMARTHOST=
     ENABLE_TLS=true
 
-    grep -q '^SMARTHOST\( \+\)\?$' ${CONFFILE} || ENABLE_SMARTHOST=true
-    [ "$ENABLE_SMARTHOST" = "true" ] && SMARTHOST=$(grep SMARTHOST ${CONFFILE} | cut -f2 -d ' ')
-    grep -q '^SECURETRANSFER\( \+\)\?$' ${CONFFILE} || ENABLE_TLS=false
-    grep -q '^STARTTLS\( \+\)\?$' ${CONFFILE} || ENABLE_TLS=false
+    echo "${CONFIG}" | grep -q '^SMARTHOST\( \+\)\?$' || ENABLE_SMARTHOST=true
+    [ "$ENABLE_SMARTHOST" = "true" ] && SMARTHOST=$(echo ${CONFIG} | grep SMARTHOST | cut -f2 -d ' ')
+    echo "${CONFIG}" | grep -q '^SECURETRANSFER\( \+\)\?$' || ENABLE_TLS=false
+    echo "${CONFIG}" | grep -q '^STARTTLS\( \+\)\?$' || ENABLE_TLS=false
 
     
   cat << _EOF_

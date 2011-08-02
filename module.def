@@ -65,3 +65,6 @@ class SMTPSettings              < uuid e1d42d6d-6661-4efc-a527-2c308680784e
 # ============================================================================
 authd scripts
 	script openapp-smtp-configure-dma
+
+authd objects
+    object dma.config           : /etc/dma/dma.conf
