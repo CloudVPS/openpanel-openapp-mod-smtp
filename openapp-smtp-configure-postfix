@@ -36,7 +36,7 @@ smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 myorigin = /etc/mailname
-mydestination = vps9124.xlshosting.net, localhost
+mydestination = $mailname, localhost
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 mailbox_size_limit = 0
 recipient_delimiter = +
@@ -46,7 +46,7 @@ inet_protocols = all
 EOB
 
 [ "$enable_smarthost" = "true" ] && cat <<EOB >> ${TMPFILE}
-relayhost = [$smarhost]
+relayhost = [$smarthost]
 EOB
 
 echo $mailname > /etc/mailname
