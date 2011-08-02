@@ -53,3 +53,4 @@ echo $mailname > /etc/mailname
 echo "root: $admin_address" > /etc/aliases
 newaliases
 mv ${TMPFILE} /etc/postfix/main.cf
+/usr/sbin/postfix quiet-reload
