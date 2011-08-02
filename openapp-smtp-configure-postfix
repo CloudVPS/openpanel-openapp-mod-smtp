@@ -1,0 +1,55 @@
+#!/bin/bash
+
+mailname=$1
+enable_smarthost=$2
+smarthost=$3
+admin_address=$4
+
+fatal() {
+    echo $1
+    FATALS=$FATALS+1
+    exit 1
+}
+
+[ -z "$mailname" ] && mailname=$(cat /etc/mailname)
+[ -z "$mailname" ] && mailname=$(hostname -f)
+[ -z "$mailname" ] && fatal "Unable to determine mailname, or no mailname given"
+
+[ -z "$enable_smarthost" ] && enable_smarthost=false
+[ "$enable_smarthost" = "true" -a -z "$smarthost" ] && fatal "You should enter a smarthost if you want to use one"
+[ "$enable_smarthost" = "false" ] && smarthost=
+[ -z "$admin_address" ] && admin_addres="root@"${mailname}
+
+TMPFILE=$(mktemp)
+
+cat <<EOB > ${TMPFILE}
+myorigin = /etc/mailname
+smtpd_banner = \$myhostname ESMTP \$mail_name (Ubuntu)
+biff = no
+append_dot_mydomain = no
+readme_directory = no
+smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+smtpd_use_tls=yes
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+myorigin = /etc/mailname
+mydestination = vps9124.xlshosting.net, localhost
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+mailbox_size_limit = 0
+recipient_delimiter = +
+inet_interfaces = all
+inet_protocols = all
+
+EOB
+
+[ "$enable_smarthost" = "true" ] && cat <<EOB >> ${TMPFILE}
+relayhost = [$smarhost]
+EOB
+
+echo $mailname > /etc/mailname
+echo "root: $admin_address" > /etc/aliases
+newaliases
+mv ${TMPFILE} /etc/postfix/main.cf

@@ -8,6 +8,6 @@ Standards-Version: 3.7.2
 Package: openpanel-openapp-mod-smtp
 Architecture: any
 Pre-Depends: openpanel-core, openpanel-authd
-Depends: dma, openpanel-core, openpanel-api-sh, ${shlibs:Depends}, ${misc:Depends}
+Depends: postfix, openpanel-core, openpanel-api-sh, ${shlibs:Depends}, ${misc:Depends}
 Description: OpenPanel module to manage OpenApp smtp
   manage the OpenApp smtp

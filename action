@@ -3,26 +3,21 @@
 
 SMTPSettings.update() {
     mailname=$(coreval SMTPSettings mailname)
-    enable_tls=$(coreval SMTPSettings enable_tls)
     enable_smarthost=$(coreval SMTPSettings enable_smarthost)
     smarthost=$(coreval SMTPSettings smarthost)
     admin_address=$(coreval SMTPSettings emailaddress)
-    authd runscript openapp-smtp-configure-dma "$mailname" "$enable_tls" "$enable_smarthost" "$smarthost" "$admin_address"
+    authd runscript openapp-smtp-configure-dma "$mailname" "$enable_smarthost" "$smarthost" "$admin_address"
 }
 
 Module.getconfig() {
-    CONFIG=$(authd getobject dma.config)
+    CONFIG=$(authd getobject postfix.config)
     MAILNAME=$(cat /etc/mailname)
     EMAILADDRESS=$(grep root: /etc/aliases | cut -f2 -d ' ')
     ENABLE_SMARTHOST=false
     SMARTHOST=
-    ENABLE_TLS=true
 
-    echo "${CONFIG}" | grep -q '^SMARTHOST\( \+\)\?$' || ENABLE_SMARTHOST=true
-    [ "$ENABLE_SMARTHOST" = "true" ] && SMARTHOST=$(echo "${CONFIG}" | grep SMARTHOST | cut -f2 -d ' ')
-    echo "${CONFIG}" | grep -q '^SECURETRANSFER\( \+\)\?$' || ENABLE_TLS=false
-    echo "${CONFIG}" | grep -q '^STARTTLS\( \+\)\?$' || ENABLE_TLS=false
-
+    echo "${CONFIG}" | grep -q '^relayhost\( \+\)\?=\( \+\)\?$' || ENABLE_SMARTHOST=true
+    [ "$ENABLE_SMARTHOST" = "true" ] && SMARTHOST=$(echo "${CONFIG}" | grep relayhost | cut -f2 -d '=' | sed -e 's/ //g')
     
   cat << _EOF_
   <openpanel.module>
@@ -30,7 +25,6 @@ Module.getconfig() {
       <dict id="openapp-smtp-settings" type="object">
         <string id="mailname">${MAILNAME}</string>
         <string id="emailaddress">${EMAILADDRESS}</string>
-        <bool id="enable_tls">${ENABLE_TLS}</bool>
         <bool id="enable_smarthost">${ENABLE_SMARTHOST}</bool>
         <string id="smarthost">${SMARTHOST}</string>
       </dict>

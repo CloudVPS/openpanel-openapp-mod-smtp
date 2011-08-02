@@ -47,10 +47,6 @@ class SMTPSettings              < uuid e1d42d6d-6661-4efc-a527-2c308680784e
 								< textwidth 45
                                 < example host.example.net
 
-    bool enable_tls             : Enable TLS
-                                < default true
-                                < gridhide true
-
     bool enable_smarthost       : Use a smarthost
                                 < default false
                                 < gridhide true
@@ -64,7 +60,7 @@ class SMTPSettings              < uuid e1d42d6d-6661-4efc-a527-2c308680784e
 # AUTHD
 # ============================================================================
 authd scripts
-	script openapp-smtp-configure-dma
+	script openapp-smtp-configure-postfix
 
 authd objects
-    object dma.config           : /etc/dma/dma.conf
+    object postfix.config           : /etc/postfix/main.cf
