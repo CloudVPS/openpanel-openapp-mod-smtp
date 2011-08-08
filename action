@@ -16,7 +16,7 @@ Module.getconfig() {
     ENABLE_SMARTHOST=false
     SMARTHOST=
 
-	[ -z $MAILNAME ] && MAILNAME=$(hostname -f)
+    [ -z $MAILNAME ] && MAILNAME=$(hostname -f)
     echo "${CONFIG}" | grep -q '^relayhost\( \+\)\?=\( \+\)\?$' || ENABLE_SMARTHOST=true
     [ "$ENABLE_SMARTHOST" = "true" ] && SMARTHOST=$(echo "${CONFIG}" | grep relayhost | cut -f2 -d '=' | sed -e 's/ //g')
     
