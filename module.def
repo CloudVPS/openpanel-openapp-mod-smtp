@@ -15,7 +15,6 @@ module OpenAppSMTP				< uuid d5b00d08-d0d4-481b-9c1b-ef91f8188765
 								< languages en_EN
 								< apitype commandline
 								< getconfig true
-                                < dynamic true
 								< license GPLv3
 								< author OpenPanel
 								< url http://www.openpanel.com/
