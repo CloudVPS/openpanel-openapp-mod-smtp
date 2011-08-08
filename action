@@ -9,7 +9,7 @@ SMTPSettings.update() {
     authd runscript openapp-smtp-configure-postfix "$mailname" "$enable_smarthost" "$smarthost" "$admin_address"
 }
 
-Module.getconfig() {
+Module.listobjects() {
     CONFIG=$(authd getobject postfix.config)
     MAILNAME=$(cat /etc/mailname)
     EMAILADDRESS=$(grep root: /etc/aliases | cut -f2 -d ' ')
