@@ -31,7 +31,7 @@ class SMTPSettings              < uuid e1d42d6d-6661-4efc-a527-2c308680784e
 								< title SMTP Relay settings
 								< description OpenApp SMTP settings
 								< sortindex 10
-								< icon user.png
+								< icon smtp.png
 							
 								< capabilities update
 								< listview id emailaddress
