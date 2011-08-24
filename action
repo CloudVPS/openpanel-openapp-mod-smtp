@@ -13,6 +13,7 @@ Module.getconfig() {
     CONFIG=$(authd getobject postfix.config)
     MAILNAME=$(cat /etc/mailname)
     EMAILADDRESS=$(grep root: /etc/aliases | cut -f2 -d ' ')
+    [ -z "$EMAILADDRESS"] && EMAILADDRESS=root@example.net
     ENABLE_SMARTHOST=false
     SMARTHOST=
 
