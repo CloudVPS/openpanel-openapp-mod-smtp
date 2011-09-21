@@ -6,7 +6,7 @@ Build-Depends: debhelper (>= 5), openpanel-dev, imagemagick
 Standards-Version: 3.7.2
 
 Package: openpanel-openapp-mod-smtp
-Architecture: any
+Architecture: all
 Pre-Depends: openpanel-core, openpanel-authd
 Depends: postfix, openpanel-core, openpanel-api-sh, ${shlibs:Depends}, ${misc:Depends}
 Conflicts: exim, exim-tls, exim4-base, sendmail-base
